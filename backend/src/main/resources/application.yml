@@ -1,0 +1,46 @@
+spring:
+  application:
+    name: subscription-billing-platform
+
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:sbp}
+    username: ${POSTGRES_USER:sbp}
+    password: ${POSTGRES_PASSWORD:sbp_dev_password}
+    hikari:
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: ${SERVER_PORT:8080}
+
+app:
+  jwt:
+    secret: ${JWT_SECRET:dev-secret-key-replace-in-production-min-32-chars}
+    access-token-expiry: ${JWT_ACCESS_TOKEN_EXPIRY:900000}
+    refresh-token-expiry: ${JWT_REFRESH_TOKEN_EXPIRY:604800000}
+
+  stripe:
+    secret-key: ${STRIPE_SECRET_KEY:sk_test_placeholder}
+    webhook-secret: ${STRIPE_WEBHOOK_SECRET:whsec_placeholder}
+
+  dunning:
+    retry-offsets:
+      - PT24H
+      - PT72H
+      - PT120H
+      - PT168H
+    grace-period: PT72H
+
+  cors:
+    allowed-origins: ${FRONTEND_URL:http://localhost:5173}
