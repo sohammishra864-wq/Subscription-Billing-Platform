@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:sbp_test}
+    username: ${POSTGRES_USER:sbp}
+    password: ${POSTGRES_PASSWORD:test_password}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  flyway:
+    enabled: true
+
+app:
+  jwt:
+    secret: test-secret-key-at-least-32-characters-long-for-testing
+    access-token-expiry: 900000
+    refresh-token-expiry: 604800000
+  stripe:
+    secret-key: sk_test_fake
+    webhook-secret: whsec_test_secret
+  dunning:
+    retry-offsets:
+      - PT24H
+      - PT72H
+      - PT120H
+      - PT168H
+    grace-period: PT72H
